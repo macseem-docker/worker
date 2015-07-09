@@ -3,7 +3,8 @@ MAINTAINER Max D. <lugamax@gmail.com>
 
 ADD ssh /root/.ssh
 
-RUN apt-get update && apt-get install -q -y apt-utils vim software-properties-common python-software-properties \
+RUN chmod 400 /root/.ssh/id_rsa \
+    && apt-get update && apt-get install -q -y apt-utils vim software-properties-common python-software-properties \
 	&& add-apt-repository 'deb http://http.debian.net/debian wheezy-backports main' \
     && apt-key adv --fetch-keys http://www.dotdeb.org/dotdeb.gpg \
     && add-apt-repository 'deb http://packages.dotdeb.org wheezy all' \
