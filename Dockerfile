@@ -4,17 +4,18 @@ MAINTAINER Max D. <lugamax@gmail.com>
 ADD ssh /root/.ssh
 
 RUN chmod 400 /root/.ssh/id_rsa \
-    && apt-get update && apt-get install -q -y apt-utils vim software-properties-common python-software-properties \
-	&& add-apt-repository 'deb http://http.debian.net/debian wheezy-backports main' \
+    && apt-get update && apt-get install -q -y \
+    apt-utils vim software-properties-common python-software-properties \
+    build-essential make cmake git curl wget openssh-client openssh-server 
+    
+RUN add-apt-repository 'deb http://http.debian.net/debian wheezy-backports main' \
     && apt-key adv --fetch-keys http://www.dotdeb.org/dotdeb.gpg \
     && add-apt-repository 'deb http://packages.dotdeb.org wheezy all' \
     && add-apt-repository 'deb http://packages.dotdeb.org wheezy-php55 all' \
-    && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get update \
-    && apt-get install -q -y \
+    && export DEBIAN_FRONTEND=noninteractive 
+RUN apt-get update && apt-get install -q -y \
       php5-dev=5.5.* php5-cli=5.5.* \
-      php5-mongo php5-redis php5-mysql php5-sqlite php5-mcrypt php5-curl php5-imap \
-      supervisor git curl wget build-essential make cmake php-pear openssh-client openssh-server \ 
+      php5-mongo php5-redis php5-mysql php5-sqlite php5-mcrypt php5-curl php5-imap php-pear \
     && git clone -b v0.5.2 git://github.com/alanxz/rabbitmq-c.git /tmp/rabbitmq-c \
     && mkdir /tmp/rabbitmq-c/build \
     && mkdir -p /etc/php5/mods-available 
@@ -44,4 +45,4 @@ RUN cd /root \
     && git submodule update --init --recursive \
     && make && make install
 
-RUN apt-get install -q -y cron
+USER 1000
